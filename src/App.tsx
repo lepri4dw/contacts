@@ -1,24 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {Link, Route, Routes} from "react-router-dom";
+import Contacts from "./containers/Contacts/Contacts";
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
+    <div>
+      <header className="border-bottom border-2 border-dark py-4">
+        <div className="container d-flex justify-content-between">
+          <Link to="/" className="text-decoration-none text-black fs-3">Contacts</Link>
+          <Link to="/new-contact" className="btn btn-primary">Add new contact</Link>
+        </div>
       </header>
+      <Routes>
+        <Route path="/" element={(<Contacts/>)}/>
+      </Routes>
     </div>
   );
 }
