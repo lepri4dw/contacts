@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi";
-import {ApiContactsList, ContactItem} from "../../types";
+import {ApiContactsList, ContactItem, FullContactInfo} from "../../types";
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
@@ -21,5 +21,22 @@ export const fetchContacts = createAsyncThunk(
     }
 
     return newContacts;
+  }
+)
+
+export const fetchOneContact = createAsyncThunk<FullContactInfo, string>(
+  'contacts/fetchOne',
+  async (id) => {
+    const response = await axiosApi.get<FullContactInfo | null>('contacts/' + id + '.json');
+    const contactInfo = response.data;
+
+    if (contactInfo === null) {
+      throw new Error('Not Found!');
+    }
+
+    return {
+      ...contactInfo,
+      id
+    }
   }
 )
