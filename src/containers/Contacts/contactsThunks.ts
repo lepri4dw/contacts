@@ -1,6 +1,6 @@
 import {createAsyncThunk} from "@reduxjs/toolkit";
 import axiosApi from "../../axiosApi";
-import {ApiContactsList, ContactItem, FullContactInfo} from "../../types";
+import {ApiContactItem, ApiContactsList, ContactItem, FullContactInfo} from "../../types";
 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
@@ -22,7 +22,7 @@ export const fetchContacts = createAsyncThunk(
 
     return newContacts;
   }
-)
+);
 
 export const fetchOneContact = createAsyncThunk<FullContactInfo, string>(
   'contacts/fetchOne',
@@ -39,4 +39,30 @@ export const fetchOneContact = createAsyncThunk<FullContactInfo, string>(
       id
     }
   }
-)
+);
+
+export const createContact = createAsyncThunk<void, ApiContactItem>(
+  'contacts/create',
+  async (contact) => {
+    await axiosApi.post('contacts.json', contact);
+  }
+);
+
+export const deleteContact = createAsyncThunk<void, string>(
+  'contact/delete',
+  async (id) => {
+    await axiosApi.delete('contacts/' + id + '.json');
+  }
+);
+
+interface UpdateContactParams {
+  id: string;
+  contact: ApiContactItem;
+}
+
+export const updateContact = createAsyncThunk<void, UpdateContactParams>(
+  'contacts/update',
+  async (params) => {
+    await axiosApi.put('contacts/' + params.id + '.json', params.contact);
+  }
+);

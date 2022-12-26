@@ -1,6 +1,8 @@
 import React from 'react';
 import {Link, Route, Routes} from "react-router-dom";
 import Contacts from "./containers/Contacts/Contacts";
+import NewContact from "./containers/NewContact/NewContact";
+import EditContact from "./containers/EditContact/EditContact";
 
 
 function App() {
@@ -14,6 +16,8 @@ function App() {
       </header>
       <Routes>
         <Route path="/" element={(<Contacts/>)}/>
+        <Route path="/new-contact" element={(<NewContact/>)}/>
+        <Route path="/edit-contact/:id" element={(<EditContact/>)}/>
       </Routes>
     </div>
   );

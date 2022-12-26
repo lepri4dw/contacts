@@ -1,20 +1,26 @@
 import {ContactItem, FullContactInfo} from "../../types";
 import {createSlice} from "@reduxjs/toolkit";
-import {fetchContacts, fetchOneContact} from "./contactsThunks";
+import {createContact, deleteContact, fetchContacts, fetchOneContact, updateContact} from "./contactsThunks";
 import {RootState} from "../../app/store";
 
 interface ContactsState {
-  items: ContactItem[],
-  fetchLoading: boolean,
-  contactInfo: FullContactInfo | null,
-  contactInfoLoading: boolean
+  items: ContactItem[];
+  fetchLoading: boolean;
+  contactInfo: FullContactInfo | null;
+  contactInfoLoading: boolean;
+  createLoading: boolean;
+  deleteLoading: boolean;
+  updateLoading: boolean;
 }
 
 const initialState: ContactsState = {
   items: [],
   fetchLoading: false,
   contactInfo: null,
-  contactInfoLoading: false
+  contactInfoLoading: false,
+  createLoading: false,
+  deleteLoading: false,
+  updateLoading: false,
 }
 
 const contactsSlice = createSlice({
@@ -43,6 +49,36 @@ const contactsSlice = createSlice({
     builder.addCase(fetchOneContact.rejected, (state) => {
       state.contactInfoLoading = false;
     });
+
+    builder.addCase(createContact.pending, (state) => {
+      state.createLoading = true;
+    });
+    builder.addCase(createContact.fulfilled, (state) => {
+      state.createLoading = false;
+    });
+    builder.addCase(createContact.rejected, (state) => {
+      state.createLoading = false;
+    });
+
+    builder.addCase(deleteContact.pending, (state) => {
+      state.deleteLoading = true;
+    });
+    builder.addCase(deleteContact.fulfilled, (state) => {
+      state.deleteLoading = false;
+    });
+    builder.addCase(deleteContact.rejected, (state) => {
+      state.deleteLoading = false;
+    });
+
+    builder.addCase(updateContact.pending, (state) => {
+      state.updateLoading = true;
+    });
+    builder.addCase(updateContact.fulfilled, (state) => {
+      state.updateLoading = false;
+    });
+    builder.addCase(updateContact.rejected, (state) => {
+      state.updateLoading = false;
+    });
   }
 });
 
@@ -52,3 +88,6 @@ export const selectContacts = (state: RootState) => state.contacts.items;
 export const selectFetchLoading = (state: RootState) => state.contacts.fetchLoading;
 export const selectContactInfo = (state: RootState) => state.contacts.contactInfo;
 export const selectContactInfoLoading = (state: RootState) => state.contacts.contactInfoLoading;
+export const selectContactCreateLoading = (state: RootState) => state.contacts.createLoading;
+export const selectContactDeleteLoading = (state: RootState) => state.contacts.deleteLoading;
+export const selectContactUpdateLoading = (state: RootState) => state.contacts.updateLoading;
